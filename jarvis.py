@@ -53,14 +53,17 @@ def listen_for_commands():
         if "open" in command and "website" in command:
                 words = command.split()
                 url = None
+                domain_extensions = ['.com', '.org', '.net', '.edu']
                 
                 for word in words:
-                    if "." in word:
-                        url = word 
+                    if any(ext in word for ext in domain_extensions):
+                        url = word
+                        if not url.startswith("http"):
+                            url = "http://" + url
                         break
                 
                 if url:
-                    open_website(f"http://{url}")
+                    open_website(url)
                 else:
                     speak("I'm not sure what you want me to open.")
         elif "time" in command:
